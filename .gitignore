@@ -1,0 +1,4 @@
+/target
+/Cargo.lock
+/data/*.txt
+!/data/*_test.txt

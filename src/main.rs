@@ -8,7 +8,7 @@ use std::{env, process};
 use aoc_macros::generate_days;
 
 fn main() {
-  let days = generate_days!(4);
+  let days = generate_days!(5);
 
   let mut args: Vec<_> = env::args().collect();
   let mut test = false;

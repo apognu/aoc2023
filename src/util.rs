@@ -1,4 +1,4 @@
-use std::{fs, path::Path};
+use std::{fmt::Debug, fs, path::Path, str::FromStr};
 
 pub fn input_file(day: usize, part: usize, test: bool) -> String {
   match test {
@@ -13,4 +13,12 @@ pub fn input_file(day: usize, part: usize, test: bool) -> String {
 
 pub fn read_file_lines(input: &str) -> Vec<String> {
   fs::read_to_string(format!("data/{input}")).unwrap().lines().map(String::from).collect()
+}
+
+pub fn parse<T>(value: &str) -> T
+where
+  T: FromStr,
+  <T as FromStr>::Err: Debug,
+{
+  value.parse::<T>().unwrap()
 }

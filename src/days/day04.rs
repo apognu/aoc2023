@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use crate::util;
+use crate::util::{self, parse};
 
 #[derive(Debug)]
 struct Card {
@@ -16,16 +16,20 @@ fn parse_scratch_cards(input: &str) -> Vec<Card> {
     .map(|(id, line)| {
       let id = id.split_whitespace();
 
-      (id.last().unwrap().parse::<u64>().unwrap(), line.split_once(" | ").unwrap())
+      (parse::<u64>(id.last().unwrap()), line.split_once(" | ").unwrap())
     })
     .map(|(id, (winners, numbers))| Card {
       id,
-      numbers: numbers.split_whitespace().map(|i| i.parse::<i64>().unwrap()).collect(),
-      winners: winners.split_whitespace().map(|i| i.parse::<i64>().unwrap()).collect(),
+      numbers: numbers.split_whitespace().map(parse::<i64>).collect(),
+      winners: winners.split_whitespace().map(parse::<i64>).collect(),
     })
     .collect();
 
   cards
+}
+
+fn get_card_score(card: &Card) -> u64 {
+  card.numbers.intersection(&card.winners).count() as u64
 }
 
 pub fn part1(input: &str) -> i64 {
@@ -33,7 +37,7 @@ pub fn part1(input: &str) -> i64 {
 
   cards
     .iter()
-    .map(|card| card.numbers.intersection(&card.winners).count())
+    .map(get_card_score)
     .map(|score| {
       (0..score).fold(0, |acc, _| match acc {
         0 => 1,
@@ -60,10 +64,7 @@ fn scratch_cards(cards: &Vec<Card>, from: usize, count: usize) -> i64 {
     .sum()
 }
 
-fn get_card_score(card: &Card) -> u64 {
-  card.numbers.intersection(&card.winners).count() as u64
-}
-
+// TODO: Optimize
 pub fn part2(input: &str) -> i64 {
   let cards = parse_scratch_cards(input);
 

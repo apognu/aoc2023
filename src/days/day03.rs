@@ -1,6 +1,6 @@
 use std::{cmp, collections::HashMap};
 
-use crate::util;
+use crate::util::{self, parse};
 
 type Grid = Vec<Vec<char>>;
 
@@ -13,19 +13,19 @@ struct EnginePart {
 }
 
 fn get_coords_of_parts(input: &str) -> (Grid, Vec<EnginePart>) {
-  let lines: Vec<Vec<char>> = util::read_file_lines(input).into_iter().map(|line| line.chars().collect::<Vec<char>>()).collect();
+  let lines: Vec<Vec<char>> = util::read_file_lines(input).into_iter().map(|line| line.chars().collect::<Vec<_>>()).collect();
 
   let (_, cols) = (lines.len(), lines.get(0).unwrap().len());
   let mut parts: Vec<EnginePart> = vec![];
 
   for (row, chars) in lines.iter().enumerate() {
-    let mut cursor = 0;
+    let mut col = 0;
 
-    while cursor <= chars.len() {
+    while col <= chars.len() {
       let mut result = String::with_capacity(cols);
 
-      for length in 1..(chars.len() - cursor + 1) {
-        let view = &chars[cursor..(cursor + length)];
+      for length in 1..(chars.len() - col + 1) {
+        let view = &chars[col..(col + length)];
 
         if !view.iter().all(|c| c.is_ascii_digit()) {
           break;
@@ -38,27 +38,25 @@ fn get_coords_of_parts(input: &str) -> (Grid, Vec<EnginePart>) {
 
       if !result.is_empty() {
         parts.push(EnginePart {
-          number: result.parse::<i64>().unwrap(),
+          number: parse::<i64>(&result),
           row,
-          col: cursor,
+          col,
           length: result.len(),
         });
       }
 
-      cursor += cmp::max(result.len(), 1);
+      col += cmp::max(result.len(), 1);
     }
   }
 
   (lines, parts)
 }
 
-const ADJACENT_MATRIX: [(isize, isize); 8] = [(0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)];
+const ADJACENCY_MATRIX: [(isize, isize); 8] = [(0, -1), (-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1)];
 
 fn get_char_at(grid: &Grid, (row, col): (isize, isize)) -> Option<char> {
-  if let Some(row) = grid.get(row as usize) {
-    if let Some(symbol) = row.get(col as usize) {
-      return Some(*symbol);
-    }
+  if let Some(symbol) = grid.get(row as usize).and_then(|row| row.get(col as usize)) {
+    return Some(*symbol);
   }
 
   None
@@ -66,7 +64,7 @@ fn get_char_at(grid: &Grid, (row, col): (isize, isize)) -> Option<char> {
 
 fn is_part_adjacent(grid: &Grid, part: &EnginePart) -> bool {
   for x in 0..part.length {
-    for (y_neigh, x_neigh) in ADJACENT_MATRIX {
+    for (y_neigh, x_neigh) in ADJACENCY_MATRIX {
       let row = part.row as isize + y_neigh;
       let col = part.col as isize + x as isize + x_neigh;
 
@@ -85,7 +83,7 @@ fn find_adjacent_gears(grid: &Grid, part: &EnginePart) -> (Vec<(isize, isize)>, 
   let mut gears: Vec<(isize, isize)> = vec![];
 
   for x in 0..part.length {
-    for (y_neigh, x_neigh) in ADJACENT_MATRIX {
+    for (y_neigh, x_neigh) in ADJACENCY_MATRIX {
       let row = part.row as isize + y_neigh;
       let col = part.col as isize + x as isize + x_neigh;
 

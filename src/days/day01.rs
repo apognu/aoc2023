@@ -1,4 +1,4 @@
-use crate::util;
+use crate::util::{self, parse};
 
 fn first_and_last_digit<S>(string: S) -> i64
 where
@@ -9,7 +9,7 @@ where
   let first = chars.clone().find(|char| char.is_ascii_digit()).unwrap();
   let last = chars.rev().find(|char| char.is_ascii_digit()).unwrap();
 
-  format!("{}{}", first, last).parse::<i64>().unwrap()
+  parse::<i64>(&format!("{}{}", first, last))
 }
 
 static LETTERS: &[(&str, &str)] = &[

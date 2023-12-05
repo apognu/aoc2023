@@ -8,3 +8,4 @@ members = [".", "aoc-macros"]
 
 [dependencies]
 aoc-macros = { path = "aoc-macros" }
+automod = "1.0.13"

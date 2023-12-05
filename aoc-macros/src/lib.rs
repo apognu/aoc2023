@@ -1,11 +1,20 @@
+use std::{env, fs, path::PathBuf};
+
 use proc_macro::{Span, TokenStream};
 use quote::quote;
-use syn::{parse_macro_input, Ident, LitInt};
+use syn::Ident;
 
 #[proc_macro]
-pub fn generate_days(input: TokenStream) -> TokenStream {
-  let args = parse_macro_input!(input as LitInt);
-  let counter = (1..=(args.base10_parse::<u64>().unwrap())).map(|id| Ident::new(&format!("day{:0>2}", id), Span::call_site().into()));
+pub fn generate_days(_input: TokenStream) -> TokenStream {
+  let path = "src/days";
+
+  let dir = match env::var_os("CARGO_MANIFEST_DIR") {
+    Some(manifest_dir) => PathBuf::from(manifest_dir).join(path),
+    None => PathBuf::from(path),
+  };
+
+  let days = fs::read_dir(dir).unwrap().count();
+  let counter = (1..days).map(|id| Ident::new(&format!("day{:0>2}", id), Span::call_site().into()));
 
   let ast = quote! {
       vec![

@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use crate::util::{self, parse};
 
@@ -47,7 +47,9 @@ pub fn part1(input: &str) -> i64 {
     .sum()
 }
 
-fn scratch_cards(cards: &Vec<Card>, from: usize, count: usize) -> i64 {
+type CardCache = HashMap<u64, i64>;
+
+fn scratch_cards(cards: &Vec<Card>, mut cache: &mut CardCache, from: usize, count: usize) -> i64 {
   if count == 0 {
     return 0;
   }
@@ -57,18 +59,28 @@ fn scratch_cards(cards: &Vec<Card>, from: usize, count: usize) -> i64 {
     .enumerate()
     .map(|(index, card)| {
       let score = get_card_score(card);
-      let nested_score = scratch_cards(cards, from + index + 1, score as usize);
+
+      let nested_score = match cache.get(&card.id) {
+        Some(cached) => *cached,
+
+        None => {
+          let score = scratch_cards(cards, &mut cache, from + index + 1, score as usize);
+          cache.insert(card.id, score);
+
+          score
+        }
+      };
 
       1 + nested_score
     })
     .sum()
 }
 
-// TODO: Optimize
 pub fn part2(input: &str) -> i64 {
   let cards = parse_scratch_cards(input);
+  let mut cache: CardCache = HashMap::new();
 
-  scratch_cards(&cards, 0, cards.len())
+  scratch_cards(&cards, &mut cache, 0, cards.len())
 }
 
 #[cfg(test)]

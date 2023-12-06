@@ -13,12 +13,12 @@ fn main() {
   let mut args: Vec<_> = env::args().collect();
   let mut test = false;
 
-  if args.len() < 2 {
+  if args.len() == 2 && args.get(1).unwrap().as_str() == "-h" {
     eprintln!("USAGE: cargo run -- [-t] DAY [PART]");
     process::exit(1);
   }
 
-  if args.get(1).unwrap().as_str() == "-t" {
+  if args.len() > 1 && args.get(1).unwrap().as_str() == "-t" {
     test = true;
 
     args.remove(1);
@@ -48,6 +48,8 @@ fn main() {
     }
   }
 
-  eprintln!("Could not understand which day you are looking for.");
-  process::exit(1);
+  for (index, funcs) in days.iter().enumerate() {
+    println!("Day {}, part 1: {}", index + 1, funcs.0(&util::input_file(index + 1, 1, false)));
+    println!("Day {}, part 2: {}", index + 1, funcs.1(&util::input_file(index + 1, 2, false)));
+  }
 }

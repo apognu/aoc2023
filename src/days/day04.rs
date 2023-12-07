@@ -49,7 +49,7 @@ pub fn part1(input: &str) -> i64 {
 
 type CardCache = HashMap<u64, i64>;
 
-fn scratch_cards(cards: &Vec<Card>, mut cache: &mut CardCache, from: usize, count: usize) -> i64 {
+fn scratch_cards(cards: &Vec<Card>, cache: &mut CardCache, from: usize, count: usize) -> i64 {
   if count == 0 {
     return 0;
   }
@@ -64,7 +64,7 @@ fn scratch_cards(cards: &Vec<Card>, mut cache: &mut CardCache, from: usize, coun
         Some(cached) => *cached,
 
         None => {
-          let score = scratch_cards(cards, &mut cache, from + index + 1, score as usize);
+          let score = scratch_cards(cards, cache, from + index + 1, score as usize);
           cache.insert(card.id, score);
 
           score

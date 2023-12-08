@@ -4,6 +4,8 @@ use itertools::Itertools;
 
 use crate::util::{self, parse};
 
+crate::tests!(5, (35, 46));
+
 type Seeds = Vec<i64>;
 type ConversionBook = HashMap<String, Vec<ConversionOp>>;
 type ConversionOp = ((i64, i64), i64);
@@ -116,17 +118,4 @@ pub fn part2(input: &str) -> i64 {
     .collect();
 
   find_location_from_seeds(&book, all_steps_mins)
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("05_test.txt"), 35);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("05_test.txt"), 46);
-  }
 }

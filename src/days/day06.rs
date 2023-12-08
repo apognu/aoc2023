@@ -2,6 +2,8 @@ use itertools::Itertools;
 
 use crate::util::{self, parse};
 
+crate::tests!(6, (288, 71503));
+
 fn parse_races(input: &str, single_race: bool) -> Vec<(i64, i64)> {
   let mut races = util::read_file_lines(input).into_iter();
 
@@ -46,17 +48,4 @@ pub fn part2(input: &str) -> i64 {
   let races = parse_races(input, true);
 
   compute_winning_combinations(&races)
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("06_test.txt"), 288);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("06_test.txt"), 71503);
-  }
 }

@@ -2,6 +2,8 @@ use std::collections::HashMap;
 
 use crate::util::{self, parse};
 
+crate::tests!(2, (8, 2286));
+
 type Draw = (i64, Vec<(i64, String)>);
 
 fn parse_game_draws(input: &str) -> Vec<Draw> {
@@ -81,17 +83,4 @@ pub fn part2(input: &str) -> i64 {
   });
 
   score.into_iter().sum()
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("02_test.txt"), 8);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("02_test.txt"), 2286);
-  }
 }

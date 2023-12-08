@@ -1,5 +1,7 @@
 use crate::util::{self, parse};
 
+crate::tests!(1, (142, 281));
+
 fn first_and_last_digit<S>(string: S) -> i64
 where
   S: AsRef<str>,
@@ -41,17 +43,4 @@ pub fn part2(input: &str) -> i64 {
   let lines = util::read_file_lines(input);
 
   lines.iter().map(replace_words_with_digits).map(first_and_last_digit).sum()
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("01_1_test.txt"), 142);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("01_2_test.txt"), 281);
-  }
 }

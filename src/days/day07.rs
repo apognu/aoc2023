@@ -4,6 +4,8 @@ use itertools::Itertools;
 
 use crate::util::{self, parse};
 
+crate::tests!(7, (6440, 5905));
+
 #[derive(Debug, Eq, PartialEq)]
 struct Hand(i64, i64, i64);
 
@@ -147,17 +149,4 @@ pub fn part2(input: &str) -> i64 {
   let hands = parse_hands(input, true);
 
   compute_gains(&hands)
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("07_test.txt"), 6440);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("07_test.txt"), 5905);
-  }
 }

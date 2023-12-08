@@ -2,6 +2,8 @@ use std::{cmp, collections::HashMap};
 
 use crate::util::{self, parse};
 
+crate::tests!(3, (4361, 467835));
+
 type Grid = Vec<Vec<char>>;
 
 #[derive(Debug)]
@@ -122,17 +124,4 @@ pub fn part2(input: &str) -> i64 {
   }
 
   gear_parts.into_iter().filter(|(_, parts)| parts.len() == 2).map(|(_, parts)| parts.iter().product::<i64>()).sum()
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("03_test.txt"), 4361);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("03_test.txt"), 467835);
-  }
 }

@@ -2,6 +2,8 @@ use std::collections::{HashMap, HashSet};
 
 use crate::util::{self, parse};
 
+crate::tests!(4, (13, 30));
+
 #[derive(Debug)]
 struct Card {
   id: u64,
@@ -81,17 +83,4 @@ pub fn part2(input: &str) -> i64 {
   let mut cache: CardCache = HashMap::new();
 
   scratch_cards(&cards, &mut cache, 0, cards.len())
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("04_test.txt"), 13);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("04_test.txt"), 30);
-  }
 }

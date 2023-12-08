@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 mod days;
+#[macro_use]
 mod util;
 
 use std::{env, process};

@@ -5,6 +5,8 @@ use num::integer::lcm;
 
 use crate::util;
 
+crate::tests!(8, (6, 6));
+
 type Turns = Vec<char>;
 type Map = HashMap<String, (String, String)>;
 
@@ -79,17 +81,4 @@ pub fn part2(input: &str) -> i64 {
     })
     .map(|(_, index)| index as i64)
     .fold(1, lcm)
-}
-
-#[cfg(test)]
-mod tests {
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1("08_1_test.txt"), 6);
-  }
-
-  #[test]
-  fn part2() {
-    assert_eq!(super::part2("08_2_test.txt"), 6);
-  }
 }

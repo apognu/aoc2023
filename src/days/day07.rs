@@ -7,7 +7,7 @@ use crate::util::{self, parse};
 #[derive(Debug, Eq, PartialEq)]
 struct Hand(i64, i64, i64);
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
 enum Suit {
   Value(usize),
   Jack,
@@ -92,16 +92,7 @@ fn raw_value(hand: &[Suit], jokers: bool) -> usize {
 }
 
 fn build_suit_map(hand: &[Suit]) -> Vec<usize> {
-  let occurences = hand
-    .iter()
-    .sorted()
-    .group_by(|card| *card)
-    .into_iter()
-    .map(|(_, suit)| suit.count())
-    .filter(|card| card > &1)
-    .collect::<Vec<_>>();
-
-  occurences
+  hand.iter().counts().values().cloned().filter(|count| count > &1).collect()
 }
 
 fn find_best_joker_replacement(hand: &[Suit]) -> Vec<Suit> {

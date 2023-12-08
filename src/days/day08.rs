@@ -15,18 +15,17 @@ fn parse_steps(input: &str) -> (Turns, Map) {
   let turns = lines.next().unwrap();
   let turns = turns.chars().collect::<Vec<_>>();
 
-  let mut map: Map = HashMap::new();
+  let map = lines
+    .filter_map(|step| match step.is_empty() {
+      true => None,
+      false => {
+        let (at, directions) = step.split_once(" = ").unwrap();
+        let (left, right) = directions.split_once(", ").unwrap();
 
-  for step in lines {
-    if step.is_empty() {
-      continue;
-    }
-
-    let (at, directions) = step.split_once(" = ").unwrap();
-    let (left, right) = directions.split_once(", ").unwrap();
-
-    map.insert(at.to_string(), (left.trim_start_matches('(').to_string(), right.trim_end_matches(')').to_string()));
-  }
+        Some((at.to_string(), (left.trim_start_matches('(').to_string(), right.trim_end_matches(')').to_string())))
+      }
+    })
+    .collect::<HashMap<_, _>>();
 
   (turns, map)
 }

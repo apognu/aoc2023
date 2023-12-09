@@ -4,38 +4,40 @@ mod days;
 #[macro_use]
 mod util;
 
-use std::{env, process};
+use std::{process, time::Instant};
 
 use aoc_macros::generate_days;
+use argparse::{ArgumentParser, StoreOption, StoreTrue};
 
 fn main() {
   let days = generate_days!();
 
-  let mut args: Vec<_> = env::args().collect();
-  let mut test = false;
+  let (mut day, mut part): (Option<usize>, Option<usize>) = (None, None);
+  let (mut test, mut timings) = (false, false);
 
-  if args.len() == 2 && args.get(1).unwrap().as_str() == "-h" {
-    eprintln!("USAGE: cargo run -- [-t] DAY [PART]");
-    process::exit(1);
+  {
+    let mut args = ArgumentParser::new();
+
+    args.refer(&mut test).add_option(&["-t", "--test"], StoreTrue, "run with test input");
+    args.refer(&mut timings).add_option(&["--timings"], StoreTrue, "run with timings");
+    args.refer(&mut day).add_argument("DAY", StoreOption, "day of the month");
+    args.refer(&mut part).add_argument("PART", StoreOption, "puzzle part");
+
+    args.parse_args_or_exit();
   }
 
-  if args.len() > 1 && args.get(1).unwrap().as_str() == "-t" {
-    test = true;
-
-    args.remove(1);
-  }
-
-  if let Some(Ok(day)) = args.get(1).map(|day| day.parse::<usize>()) {
-    let part = args.get(2).and_then(|day| day.parse::<usize>().ok()).unwrap_or(0);
+  if let Some(day) = day {
+    let part = part.unwrap_or(0);
 
     match days.get(day - 1) {
       Some(funcs) => {
         match part {
-          1 => println!("Day {}, part 1: {}", day, funcs.0(&util::input_file(day, part, test))),
-          2 => println!("Day {}, part 2: {}", day, funcs.1(&util::input_file(day, part, test))),
+          1 => execute(funcs.0, day, part, test, timings),
+          2 => execute(funcs.1, day, part, test, timings),
+
           _ => {
-            println!("Day {}, part 1: {}", day, funcs.0(&util::input_file(day, 1, test)));
-            println!("Day {}, part 2: {}", day, funcs.1(&util::input_file(day, 2, test)));
+            execute(funcs.0, day, part, test, timings);
+            execute(funcs.1, day, part, test, timings);
           }
         }
 
@@ -50,7 +52,21 @@ fn main() {
   }
 
   for (index, funcs) in days.iter().enumerate() {
-    println!("Day {}, part 1: {}", index + 1, funcs.0(&util::input_file(index + 1, 1, false)));
-    println!("Day {}, part 2: {}", index + 1, funcs.1(&util::input_file(index + 1, 2, false)));
+    execute(funcs.0, index + 1, 1, test, timings);
+    execute(funcs.1, index + 1, 2, test, timings);
   }
+}
+
+fn execute(func: fn(&str) -> i64, day: usize, part: usize, test: bool, timings: bool) {
+  let input = &util::input_file(day, part, test);
+  let before = Instant::now();
+  let result = func(input);
+
+  print!("D{day:0>2}P{part:0>2}: {result} ");
+
+  if timings {
+    print!("({:?})", Instant::now().duration_since(before));
+  }
+
+  println!();
 }

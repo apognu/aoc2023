@@ -77,13 +77,13 @@ impl From<char> for Directions {
     use Direction::*;
 
     match value {
-      'S' => Directions(HashSet::from_iter(vec![North, West, East, South])),
-      '|' => Directions(HashSet::from_iter(vec![North, South])),
-      '-' => Directions(HashSet::from_iter(vec![West, East])),
-      'L' => Directions(HashSet::from_iter(vec![North, East])),
-      '7' => Directions(HashSet::from_iter(vec![West, South])),
-      'J' => Directions(HashSet::from_iter(vec![North, West])),
-      'F' => Directions(HashSet::from_iter(vec![East, South])),
+      'S' => Directions(HashSet::from_iter([North, West, East, South])),
+      '|' => Directions(HashSet::from_iter([North, South])),
+      '-' => Directions(HashSet::from_iter([West, East])),
+      'L' => Directions(HashSet::from_iter([North, East])),
+      '7' => Directions(HashSet::from_iter([West, South])),
+      'J' => Directions(HashSet::from_iter([North, West])),
+      'F' => Directions(HashSet::from_iter([East, South])),
       _ => Directions(HashSet::new()),
     }
   }

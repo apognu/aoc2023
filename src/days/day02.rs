@@ -4,7 +4,39 @@ use crate::util::{self, parse};
 
 crate::tests!(2, (8, 2286));
 
-type Draw = (i64, Vec<(i64, String)>);
+type Draw = (i64, Vec<(i64, Color)>);
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+impl From<&str> for Color {
+  fn from(value: &str) -> Self {
+    use Color::*;
+
+    match value {
+      "red" => Red,
+      "green" => Green,
+      "blue" => Blue,
+      _ => panic!("unexpected color"),
+    }
+  }
+}
+
+impl Color {
+  const fn max(&self) -> i64 {
+    use Color::*;
+
+    match self {
+      Red => 12,
+      Green => 13,
+      Blue => 14,
+    }
+  }
+}
 
 fn parse_game_draws(input: &str) -> Vec<Draw> {
   let lines = util::read_file_lines(input);
@@ -17,12 +49,7 @@ fn parse_game_draws(input: &str) -> Vec<Draw> {
 
       let draws = draws
         .split("; ")
-        .flat_map(|draw| {
-          draw
-            .split(", ")
-            .map(|token| token.split_once(' ').unwrap())
-            .map(|(count, color)| (parse::<i64>(count), color.to_string()))
-        })
+        .flat_map(|draw| draw.split(", ").map(|token| token.split_once(' ').unwrap()).map(|(count, color)| (parse::<i64>(count), color.into())))
         .collect::<Vec<_>>();
 
       (game_id, draws)
@@ -30,14 +57,10 @@ fn parse_game_draws(input: &str) -> Vec<Draw> {
     .collect()
 }
 
-const MAX_RED: i64 = 12;
-const MAX_GREEN: i64 = 13;
-const MAX_BLUE: i64 = 14;
-
-type Score = HashMap<String, i64>;
+type Score = HashMap<Color, i64>;
 
 fn overflow_maxes(colors: &Score) -> bool {
-  colors.get("red").unwrap_or(&0) > &MAX_RED || colors.get("green").unwrap_or(&0) > &MAX_GREEN || colors.get("blue").unwrap_or(&0) > &MAX_BLUE
+  [Color::Red, Color::Green, Color::Blue].iter().any(|color| colors.get(color).unwrap_or(&0) > &color.max())
 }
 
 pub fn part1(input: &str) -> i64 {
@@ -45,10 +68,10 @@ pub fn part1(input: &str) -> i64 {
 
   let score = draws.iter().fold(0, |acc, (game_id, draws)| {
     let colors = draws.iter().fold(Score::new(), |mut acc, (count, color)| {
-      let current_count = acc.get(color.as_str()).unwrap_or(&0);
+      let current_count = acc.get(color).unwrap_or(&0);
 
       if count > current_count {
-        acc.insert(color.to_string(), *count);
+        acc.insert(*color, *count);
       }
 
       acc
@@ -69,10 +92,10 @@ pub fn part2(input: &str) -> i64 {
 
   let score = draws.iter().fold(Vec::<i64>::new(), |mut acc, (_, draws)| {
     let colors = draws.iter().fold(Score::new(), |mut acc, (count, color)| {
-      let current_count = acc.get(color.as_str()).unwrap_or(&0);
+      let current_count = acc.get(color).unwrap_or(&0);
 
       if count > current_count {
-        acc.insert(color.to_string(), *count);
+        acc.insert(*color, *count);
       }
 
       acc

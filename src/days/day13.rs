@@ -1,8 +1,10 @@
-use crate::util;
+use crate::util::{self, transpose};
 
 crate::tests!(13, (405, 400));
 
-fn parse_field(input: &str) -> Vec<Vec<Vec<bool>>> {
+type Grid = Vec<Vec<bool>>;
+
+fn parse_field(input: &str) -> Vec<Grid> {
   let input = util::read_file_lines(input);
 
   let fields = input
@@ -22,14 +24,7 @@ fn parse_field(input: &str) -> Vec<Vec<Vec<bool>>> {
   fields.split(|row| row.is_empty()).map(|field| field.to_vec()).collect::<Vec<_>>()
 }
 
-fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>>
-where
-  T: Clone,
-{
-  (0..matrix[0].len()).map(|index| matrix.iter().map(|row| row[index].clone()).collect::<Vec<T>>()).collect()
-}
-
-fn find_mirror_point(field: &[Vec<bool>], max: usize) -> i64 {
+fn find_mirror_point(field: &Grid, max: usize) -> i64 {
   for i in 0..field.len() {
     if i >= field.len() - 1 {
       break;

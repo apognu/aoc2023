@@ -40,3 +40,10 @@ where
 {
   value.parse::<T>().unwrap()
 }
+
+pub fn transpose<T>(matrix: Vec<Vec<T>>) -> Vec<Vec<T>>
+where
+  T: Clone,
+{
+  (0..matrix[0].len()).map(|index| matrix.iter().map(|row| row[index].clone()).collect::<Vec<_>>()).collect()
+}

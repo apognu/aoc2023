@@ -1,4 +1,3 @@
-/target
-/Cargo.lock
-/data/*.txt
-!/data/*_test.txt
+target
+*/data/*.txt
+!*/data/*_test.txt

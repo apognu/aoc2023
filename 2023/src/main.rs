@@ -36,8 +36,8 @@ fn main() {
           2 => execute(funcs.1, day, part, test, timings),
 
           _ => {
-            execute(funcs.0, day, part, test, timings);
-            execute(funcs.1, day, part, test, timings);
+            execute(funcs.0, day, 1, test, timings);
+            execute(funcs.1, day, 2, test, timings);
           }
         }
 

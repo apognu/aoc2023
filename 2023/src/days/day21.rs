@@ -2,8 +2,6 @@ use std::collections::{HashSet, VecDeque};
 
 use crate::util;
 
-crate::tests!(21, (0, 0));
-
 const ADJACENCY_MATRIX: [(isize, isize); 4] = [(0, -1), (-1, 0), (0, 1), (1, 0)];
 
 fn map_gardens(input: &str, max: usize, at: (isize, isize)) -> i64 {

@@ -4,8 +4,6 @@ use num::integer::lcm;
 
 use crate::util;
 
-crate::tests!(20, (0, 0));
-
 #[derive(Debug, Clone)]
 enum Device {
   Broadcaster { name: String, outputs: Vec<String> },
@@ -184,5 +182,15 @@ pub fn part2(input: &str) -> i64 {
     }
 
     presses += 1;
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use crate::util::input_file;
+
+  #[test]
+  fn part1() {
+    assert_eq!(super::part1(&input_file(20, 1, true)), 11687500);
   }
 }

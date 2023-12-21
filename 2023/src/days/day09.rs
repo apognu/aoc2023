@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(9, (114, 2));
 
@@ -32,13 +32,13 @@ fn compute_next_value(predictions: Vec<Vec<i64>>) -> i64 {
   sum
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let predictions = parse_predictions(input);
 
   compute_next_value(predictions)
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let predictions = parse_predictions(input)
     .into_iter()
     .map(|mut series| {

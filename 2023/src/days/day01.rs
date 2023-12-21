@@ -1,4 +1,4 @@
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(1, (142, 281));
 
@@ -33,13 +33,13 @@ where
   LETTERS.iter().fold(string.as_ref().to_string(), |acc, (word, value)| acc.replace(word, value))
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let lines = util::read_file_lines(input);
 
   lines.iter().map(first_and_last_digit).sum()
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let lines = util::read_file_lines(input);
 
   lines.iter().map(replace_words_with_digits).map(first_and_last_digit).sum()

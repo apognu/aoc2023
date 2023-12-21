@@ -1,4 +1,4 @@
-use crate::util::{self, transpose};
+use crate::util::{self, transpose, Options};
 
 crate::tests!(14, (136, 64));
 
@@ -53,11 +53,11 @@ fn count(platform: &Grid) -> i64 {
   score as i64
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   count(&tilt(parse_platform(input)))
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let max = 1_000_000_000;
   let mut platform = parse_platform(input);
   let mut cycle = 0;

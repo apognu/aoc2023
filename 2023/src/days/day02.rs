@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(2, (8, 2286));
 
@@ -63,7 +63,7 @@ fn overflow_maxes(colors: &Score) -> bool {
   [Color::Red, Color::Green, Color::Blue].iter().any(|color| colors.get(color).unwrap_or(&0) > &color.max())
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let draws = parse_game_draws(input);
 
   let score = draws.iter().fold(0, |acc, (game_id, draws)| {
@@ -87,7 +87,7 @@ pub fn part1(input: &str) -> i64 {
   score
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let draws = parse_game_draws(input);
 
   let score = draws.iter().fold(Vec::<i64>::new(), |mut acc, (_, draws)| {

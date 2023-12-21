@@ -2,7 +2,7 @@ use std::iter::repeat;
 
 use itertools::intersperse;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(12, (21, 525152));
 
@@ -72,7 +72,7 @@ fn arrangements<'a>(cache: &mut Cache<'a>, row: &'a [char], matches: &'a [u8]) -
   result
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let map = parse_springs(input, 1);
   let mut cache: Cache = [i64::MAX; CACHE_SIZE];
 
@@ -86,7 +86,7 @@ pub fn part1(input: &str) -> i64 {
     .sum()
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let map = parse_springs(input, 5);
   let mut cache: Cache = [i64::MAX; CACHE_SIZE];
 

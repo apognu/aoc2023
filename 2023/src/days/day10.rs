@@ -3,7 +3,7 @@ use std::{
   ops::Neg,
 };
 
-use crate::util;
+use crate::util::{self, Options};
 
 type Maze = HashMap<Coord, Directions>;
 type Coord = (usize, usize);
@@ -147,7 +147,7 @@ fn walk_the_maze(maze: &Maze, start: &Coord, mut at: Coord, mut previous: Direct
   (distance / 2, (area as i64 / 2).abs() - distance / 2 + 1)
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let (maze, start) = parse_maze(input);
   let (direction, at) = first_tile(&maze, start);
   let (distance, _) = walk_the_maze(&maze, &start, at, direction);
@@ -155,7 +155,7 @@ pub fn part1(input: &str) -> i64 {
   distance
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let (maze, start) = parse_maze(input);
   let (direction, at) = first_tile(&maze, start);
   let (_, area) = walk_the_maze(&maze, &start, at, direction);

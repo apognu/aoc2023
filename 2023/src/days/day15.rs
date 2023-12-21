@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(15, (1320, 145));
 
@@ -75,10 +75,10 @@ fn little_boxes_on_the_hillside(items: &[String]) -> i64 {
     .sum()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   verification_number(&parse_sequence(input))
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   little_boxes_on_the_hillside(&parse_sequence(input))
 }

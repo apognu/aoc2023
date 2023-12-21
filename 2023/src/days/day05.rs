@@ -2,7 +2,7 @@ use std::{cmp, collections::HashMap, ops::Range};
 
 use itertools::Itertools;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(5, (35, 46));
 
@@ -69,7 +69,7 @@ fn find_location_from_seeds(book: &ConversionBook, seeds: Vec<i64>) -> i64 {
   })
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let (seeds, book) = parse_alamanac(input);
 
   find_location_from_seeds(&book, seeds)
@@ -94,7 +94,7 @@ fn find_seed_from_location_and_step(book: &ConversionBook, upto: usize, seeds: &
   }
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let (seeds, book) = parse_alamanac(input);
 
   let seeds = seeds

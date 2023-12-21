@@ -7,15 +7,79 @@ macro_rules! tests {
     mod tests {
       #[test]
       fn part1() {
-        assert_eq!(super::part1(&$crate::util::input_file($day, 1, true)), $result1);
+        assert_eq!(super::part1(&$crate::util::input_file($day, 1, true), None), $result1);
       }
 
       #[test]
       fn part2() {
-        assert_eq!(super::part2(&$crate::util::input_file($day, 2, true)), $result2);
+        assert_eq!(super::part2(&$crate::util::input_file($day, 2, true), None), $result2);
       }
     }
   };
+
+  ($day:literal, ($opts1:expr => $result1:literal, $opts2:expr => $result2:literal)) => {
+    #[cfg(test)]
+    mod tests {
+      #[test]
+      fn part1() {
+        assert_eq!(super::part1(&$crate::util::input_file($day, 1, true), Some(Box::new($opts1))), $result1);
+      }
+
+      #[test]
+      fn part2() {
+        assert_eq!(super::part2(&$crate::util::input_file($day, 2, true), Some(Box::new($opts2))), $result2);
+      }
+    }
+  };
+}
+
+pub type Options = Option<Box<dyn Opt>>;
+type Output = (usize, usize);
+
+pub fn extract_opts(opts: Options, default: &[usize]) -> Vec<usize> {
+  match opts {
+    None => default.to_vec(),
+    Some(opts) => opts.slice().to_vec(),
+  }
+}
+
+pub trait Opt {
+  fn get(&self) -> Output;
+  fn slice(&self) -> &[usize];
+}
+
+impl Opt for () {
+  fn get(&self) -> Output {
+    (0, 0)
+  }
+
+  fn slice(&self) -> &[usize] {
+    &[]
+  }
+}
+
+impl Opt for (usize,) {
+  fn get(&self) -> Output {
+    (self.0, 0)
+  }
+
+  fn slice(&self) -> &[usize] {
+    let f = &self.0 as *const _;
+
+    unsafe { std::slice::from_raw_parts(f, 1) }
+  }
+}
+
+impl Opt for (usize, usize) {
+  fn get(&self) -> Output {
+    *self
+  }
+
+  fn slice(&self) -> &[usize] {
+    let f = &self.0 as *const _;
+
+    unsafe { std::slice::from_raw_parts(f, 2) }
+  }
 }
 
 pub fn input_file(day: usize, part: usize, test: bool) -> String {

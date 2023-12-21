@@ -9,6 +9,8 @@ use std::{process, time::Instant};
 use aoc_macros::generate_days;
 use argparse::{ArgumentParser, StoreOption, StoreTrue};
 
+use crate::util::Options;
+
 fn main() {
   let days = generate_days!();
 
@@ -57,10 +59,10 @@ fn main() {
   }
 }
 
-fn execute(func: fn(&str) -> i64, day: usize, part: usize, test: bool, timings: bool) {
+fn execute(func: fn(&str, Options) -> i64, day: usize, part: usize, test: bool, timings: bool) {
   let input = &util::input_file(day, part, test);
   let before = Instant::now();
-  let result = func(input);
+  let result = func(input, None);
 
   print!("D{day:0>2}P{part:0>2}: {result} ");
 

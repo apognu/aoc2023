@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(4, (13, 30));
 
@@ -34,7 +34,7 @@ fn get_card_score(card: &Card) -> u64 {
   card.numbers.intersection(&card.winners).count() as u64
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let cards = parse_scratch_cards(input);
 
   cards
@@ -78,7 +78,7 @@ fn scratch_cards(cards: &Vec<Card>, cache: &mut CardCache, from: usize, count: u
     .sum()
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let cards = parse_scratch_cards(input);
   let mut cache: CardCache = HashMap::new();
 

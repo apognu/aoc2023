@@ -3,7 +3,7 @@ use std::{
   collections::{BinaryHeap, HashMap},
 };
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(17, (102, 94));
 
@@ -118,13 +118,13 @@ fn shortest(grid: &Grid, (min, max): MinMax) -> i64 {
   panic!("should not be reached");
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let grid = parse_grid(input);
 
   shortest(&grid, (0, 3))
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let grid = parse_grid(input);
 
   shortest(&grid, (4, 10))

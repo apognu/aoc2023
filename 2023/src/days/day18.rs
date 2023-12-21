@@ -2,7 +2,7 @@ use std::collections::VecDeque;
 
 use itertools::Itertools;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(18, (62, 952408144115));
 
@@ -128,7 +128,7 @@ fn area(vertices: &[Coord], distance: isize) -> i64 {
   (distance + area) as i64
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let trenches = parse_trench(input, false);
   let distance = perimeter(&trenches);
   let vertices = dig(trenches);
@@ -136,7 +136,7 @@ pub fn part1(input: &str) -> i64 {
   area(&vertices, distance)
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let trenches = parse_trench(input, true);
   let distance = perimeter(&trenches);
   let vertices = dig(trenches);

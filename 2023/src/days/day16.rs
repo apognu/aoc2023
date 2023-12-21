@@ -3,7 +3,7 @@ use std::{collections::HashSet, ops::Add};
 use itertools::Itertools;
 use rayon::prelude::*;
 
-use crate::util;
+use crate::util::{self, Options};
 
 crate::tests!(16, (46, 51));
 
@@ -164,14 +164,14 @@ fn border_start_moves(grid: &Grid) -> Vec<Move> {
     .collect::<Vec<_>>()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let grid = parse_grid(input);
   let moveset = ((0isize, 0isize), Direction::Right);
 
   count_energized(walk(&grid, HashSet::default(), moveset))
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let grid = parse_grid(input);
 
   border_start_moves(&grid)

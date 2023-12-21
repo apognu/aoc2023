@@ -6,7 +6,7 @@ use std::{
 
 use itertools::Itertools;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(19, (19114, 167409079868000));
 
@@ -231,7 +231,7 @@ fn parse_input(input: &str) -> (HashMap<String, Workflow>, Vec<Part>) {
   (workflows, parts)
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let (workflows, parts) = parse_input(input);
   let mut queue: VecDeque<(String, Part)> = VecDeque::default();
   let mut accepted: Vec<Part> = vec![];
@@ -298,7 +298,7 @@ fn find_accepted_ranges(workflows: &HashMap<String, Workflow>, dest: Destination
   total
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let (workflows, _) = parse_input(input);
 
   find_accepted_ranges(&workflows, Destination::Workflow("in".to_string()), array::from_fn(|_| 1..=4000))

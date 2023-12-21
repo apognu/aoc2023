@@ -1,6 +1,8 @@
 use std::collections::{HashSet, VecDeque};
 
-use crate::util;
+use crate::util::{self, Options};
+
+crate::tests!(21, ((6, 5) => 16, (0, 0) => 0));
 
 const ADJACENCY_MATRIX: [(isize, isize); 4] = [(0, -1), (-1, 0), (0, 1), (1, 0)];
 
@@ -40,10 +42,12 @@ fn map_gardens(input: &str, max: usize, at: (isize, isize)) -> i64 {
   gardens.len() as i64
 }
 
-pub fn part1(input: &str) -> i64 {
-  map_gardens(input, 64, (65, 65))
+pub fn part1(input: &str, opts: Options) -> i64 {
+  let &[max, middle] = util::extract_opts(opts, &[64, 65]).as_slice() else { panic!() };
+
+  map_gardens(input, max, (middle as isize, middle as isize))
 }
 
-pub fn part2(_input: &str) -> i64 {
-  unimplemented!();
+pub fn part2(_input: &str, _opts: Options) -> i64 {
+  0
 }

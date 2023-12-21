@@ -19,8 +19,8 @@ pub fn generate_days(_input: TokenStream) -> TokenStream {
   let ast = quote! {
       vec![
           #((
-              crate::days::#counter::part1 as fn(&str) -> i64,
-              crate::days::#counter::part2 as fn(&str) -> i64
+              crate::days::#counter::part1 as fn(&str, Option<Box<dyn crate::util::Opt>>) -> i64,
+              crate::days::#counter::part2 as fn(&str, Option<Box<dyn crate::util::Opt>>) -> i64
           )),*
       ]
   };

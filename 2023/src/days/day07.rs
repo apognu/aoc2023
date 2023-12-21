@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 
 use itertools::Itertools;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(7, (6440, 5905));
 
@@ -139,13 +139,13 @@ fn parse_hands(input: &str, jokers: bool) -> Vec<Hand> {
     .collect::<Vec<_>>()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let hands = parse_hands(input, false);
 
   compute_gains(&hands)
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let hands = parse_hands(input, true);
 
   compute_gains(&hands)

@@ -2,7 +2,9 @@ use std::collections::{HashMap, VecDeque};
 
 use num::integer::lcm;
 
-use crate::util;
+use crate::util::{self, Options};
+
+crate::tests!(20, (11687500, 0));
 
 #[derive(Debug, Clone)]
 enum Device {
@@ -118,7 +120,7 @@ fn parse_network(input: &str) -> HashMap<String, Device> {
   network
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let mut network = parse_network(input);
   let (mut highs, mut lows) = (0, 0);
 
@@ -141,7 +143,7 @@ pub fn part1(input: &str) -> i64 {
   highs * lows
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   use Device::*;
 
   let mut network = parse_network(input);
@@ -149,11 +151,14 @@ pub fn part2(input: &str) -> i64 {
 
   let mut presses = 1;
 
-  let previous = network
-    .iter()
-    .find(|(_, device)| device.outputs().contains(&String::from("rx")))
-    .map(|(device, _)| device.clone())
-    .unwrap();
+  let previous = network.iter().find(|(_, device)| device.outputs().contains(&String::from("rx"))).map(|(device, _)| device.clone());
+
+  if previous.is_none() {
+    println!("WARN: this exercise does not have an example for part 2.");
+    return 0;
+  }
+
+  let previous = previous.unwrap();
 
   loop {
     let mut queue: VecDeque<(String, String, Pulse)> = VecDeque::default();
@@ -182,15 +187,5 @@ pub fn part2(input: &str) -> i64 {
     }
 
     presses += 1;
-  }
-}
-
-#[cfg(test)]
-mod tests {
-  use crate::util::input_file;
-
-  #[test]
-  fn part1() {
-    assert_eq!(super::part1(&input_file(20, 1, true)), 11687500);
   }
 }

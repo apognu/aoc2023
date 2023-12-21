@@ -1,6 +1,6 @@
 use std::{cmp, collections::HashMap};
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(3, (4361, 467835));
 
@@ -104,13 +104,13 @@ fn find_adjacent_gears(grid: &Grid, part: &EnginePart) -> (Vec<(isize, isize)>, 
   (gears, part.number)
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let (grid, parts) = get_coords_of_parts(input);
 
   parts.iter().filter(|part| is_part_adjacent(&grid, part)).map(|part| part.number).sum()
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let (grid, parts) = get_coords_of_parts(input);
 
   let gears: Vec<(Vec<(isize, isize)>, i64)> = parts.iter().map(|part| find_adjacent_gears(&grid, part)).collect();

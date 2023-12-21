@@ -1,4 +1,4 @@
-use crate::util::{self, transpose};
+use crate::util::{self, transpose, Options};
 
 crate::tests!(13, (405, 400));
 
@@ -61,13 +61,13 @@ fn find_difference_count(a: &[bool], b: &[bool]) -> usize {
   a.iter().enumerate().filter(|(index, left)| b.get(*index).unwrap() != *left).count()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let fields = parse_field(input);
 
   fields.into_iter().map(|field| (100 * find_mirror_point(&field, 0)) + find_mirror_point(&transpose(field), 0)).sum()
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let fields = parse_field(input);
 
   fields.into_iter().map(|field| (100 * find_mirror_point(&field, 1)) + find_mirror_point(&transpose(field), 1)).sum()

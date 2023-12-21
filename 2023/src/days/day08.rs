@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use itertools::{FoldWhile::*, Itertools};
 use num::integer::lcm;
 
-use crate::util;
+use crate::util::{self, Options};
 
 crate::tests!(8, (6, 6));
 
@@ -44,7 +44,7 @@ fn next_step(map: &Map, at: &str, to: &char) -> String {
   next.to_string()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let (turns, map) = parse_steps(input);
 
   let (_, index) = turns
@@ -59,7 +59,7 @@ pub fn part1(input: &str) -> i64 {
   index
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let (turns, map) = parse_steps(input);
 
   map

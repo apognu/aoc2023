@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::util;
+use crate::util::{self, Options};
 
 crate::tests!(11, (374, 82000210));
 
@@ -59,13 +59,13 @@ fn manhattan_distance_of_life_the_universe_and_everything(galaxies: &[Coord]) ->
     .sum()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let galaxies = map_universe(input, 2);
 
   manhattan_distance_of_life_the_universe_and_everything(&galaxies)
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let galaxies = map_universe(input, 1_000_000);
 
   manhattan_distance_of_life_the_universe_and_everything(&galaxies)

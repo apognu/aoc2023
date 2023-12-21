@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::util::{self, parse};
+use crate::util::{self, parse, Options};
 
 crate::tests!(6, (288, 71503));
 
@@ -38,13 +38,13 @@ fn compute_winning_combinations(races: &[(i64, i64)]) -> i64 {
     .product()
 }
 
-pub fn part1(input: &str) -> i64 {
+pub fn part1(input: &str, _opts: Options) -> i64 {
   let races = parse_races(input, false);
 
   compute_winning_combinations(&races)
 }
 
-pub fn part2(input: &str) -> i64 {
+pub fn part2(input: &str, _opts: Options) -> i64 {
   let races = parse_races(input, true);
 
   compute_winning_combinations(&races)
